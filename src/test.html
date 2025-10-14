@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FlyFeet - Demo</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Bootstrap Icons (tùy chọn) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+
+    .height-rf{
+      height: 200px
+    }
+    .text-pf{
+      text-align: left;
+      font-size: 20px;
+    }
+    main {
+      flex: 1; /* đẩy footer xuống cuối */
+      font-family: 'SVN-Gilroy';
+      src: url('../public/fonts/SVN-Gilroy/SVN-Gilroy Black.otf') format('opentype');
+    }
+  
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Menu Styling */
+    .navbar {
+      background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%) !important;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+    
+    .navbar-brand {
+      transition: transform 0.3s ease;
+    }
+
+    .navbar-brand:hover {
+      /* transform: scale(1.05); */
+    }
+
+    .nav-link {
+      color: #2c3e50 !important;
+      font-weight: 500;
+      font-size: 16px;
+      padding: 12px 20px !important;
+      margin: 0 5px;
+      border-radius: 25px;
+    
+      position: relative;
+      overflow: hidden;
+      font-family: 'SVN-Gilroy-semibold';
+      src: url('../public/fonts/SVN-Gilroy/SVN-Gilroy\ SemiBold.otf') format('opentype');
+    }
+
+    .nav-link:hover {
+      
+      color: #37A2E0 !important;
+      /* background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%); */
+   
+    }
+
+    .nav-link::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      transition: left 0.5s;
+    }
+
+    .nav-link:hover::before {
+      left: 100%;
+    }
+
+    .dropdown-menu {
+      border: none;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      backdrop-filter: blur(10px);
+      background: rgba(255,255,255,0.95);
+      margin-top: 10px;
+      padding: 10px 0;
+    }
+
+    .dropdown-item {
+      color: #2c3e50;
+      font-weight: 500;
+      padding: 12px 25px;
+      transition: all 0.3s ease;
+      border-radius: 8px;
+      margin: 2px 10px;
+    }
+
+    .dropdown-item:hover {
+   
+      color: white;
+      transform: translateX(5px);
+    }
+
+    .navbar-toggler {
+      border: none;
+      padding: 8px 12px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      transition: all 0.3s ease;
+    }
+
+    .navbar-toggler:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    }
+
+    .navbar-toggler:focus {
+      box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    }
+
+    .navbar-toggler-icon {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    }
+
+    /* Mobile cart button styling */
+    .btn-link {
+      color: #2c3e50 !important;
+      transition: all 0.3s ease;
+      border-radius: 50%;
+      width: 45px;
+      height: 45px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-link:hover {
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+      color: #667eea !important;
+      transform: scale(1.1);
+    }
+
+    /* Animation for cart badge */
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7);
+      }
+      70% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 10px rgba(220, 53, 69, 0);
+      }
+      100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(220, 53, 69, 0);
+      }
+    }
+
+    /* Smooth scroll for better UX */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Additional hover effects for better interactivity */
+    .navbar-nav .nav-item {
+      position: relative;
+    }
+
+    .navbar-nav .nav-item::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 50%;
+      width: 0;
+      height: 3px;
+      color: #161C2D;
+   
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+      border-radius: 2px;
+    }
+
+    .navbar-nav .nav-item:hover::after {
+      width: 80%;
+    }
+
+    /* Sidebar Toggler Styling */
+    .btn-link[data-bs-toggle="offcanvas"] {
+      color: #2c3e50 !important;
+      transition: all 0.3s ease;
+      border-radius: 10px;
+      padding: 10px 15px;
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+    }
+
+    .btn-link[data-bs-toggle="offcanvas"]:hover {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white !important;
+      transform: scale(1.05);
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    }
+
+    /* Sidebar Menu Styling */
+    .sidebar-menu {
+      background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+      color: white;
+    }
+
+    .sidebar-menu .offcanvas-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .sidebar-menu .offcanvas-title {
+      font-weight: 600;
+      font-size: 1.3rem;
+    }
+
+    .sidebar-menu .btn-close {
+      filter: invert(1);
+    }
+
+    .sidebar-menu .nav-link {
+      color: #ecf0f1 !important;
+      padding: 15px 25px;
+      border-radius: 10px;
+      margin: 5px 15px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sidebar-menu .nav-link:hover {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white !important;
+      transform: translateX(10px);
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    .sidebar-menu .nav-link i {
+      margin-right: 12px;
+      width: 20px;
+      text-align: center;
+    }
+
+    
+    .sidebar-menu .dropdown-menu {
+      background: rgba(44, 62, 80, 0.95);
+      border: none;
+      border-radius: 10px;
+      margin: 5px 15px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+      position: relative;
+    }
+
+    .sidebar-menu .dropdown-item {
+      color: #ecf0f1;
+      padding: 12px 20px;
+      border-radius: 8px;
+      margin: 2px 8px;
+      transition: all 0.3s ease;
+    }
+
+    .sidebar-menu .dropdown-item:hover {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      transform: translateX(5px);
+    }
+
+    .sidebar-menu .dropdown-item i {
+      margin-right: 10px;
+      width: 16px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container-fluid" >
+  
+    <!-- Header + Menu -->
+     <div class="container-fluid">
+      <header class="bg-white">
+      <div class="container " style="padding: 0;">
+        <nav class="navbar navbar-expand-lg navbar-light">
+          <a class="navbar-brand fw-bold" href="/"><img src="../public/logo.2d2d0d2c.svg" alt="" style="width: 150px; height: 74px;"></a>
+
+          <!-- Sidebar Toggler -->
+          <button class="btn btn-link text-dark me-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-label="Mở menu">
+            <i class="bi bi-list" style="font-size: 1.5rem;"></i>
+          </button>
+
+          <!-- Toggler -->
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <!-- Mobile icons (search & cart) - visible only on small screens -->
+          <div class="d-flex d-lg-none align-items-center ms-auto">
+            <!-- Search (mobile opens offcanvas) -->
+            <button class="btn btn-link text-dark me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#searchOffcanvas" aria-controls="searchOffcanvas" aria-label="Tìm kiếm">
+              <i class="bi bi-search" style="font-size:1.2rem;"></i>
+            </button>
+            <!-- Cart (mobile opens offcanvas) -->
+            <button class="btn btn-link text-dark position-relative" type="button" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas" aria-controls="cartOffcanvas" aria-label="Giỏ hàng">
+              <i class="bi bi-cart" style="font-size:1.25rem;"></i>
+              <span class="badge bg-danger rounded-pill" style="font-size:0.65rem; position: absolute; top: -6px; right: -2px;">0</span>
+            </button>
+          </div>
+
+          <!-- Collapse (menu + desktop search/cart) -->
+          <div class="collapse navbar-collapse" id="mainNavbar">
+            <!-- Nav items -->
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 GSVN-Gilroy">
+              <li class="nav-item"><a class="nav-link" href="/">Chọn số</a></li>
+              <li class="nav-item"><a class="nav-link" href="/">Gói cước</a></li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navNam" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hỗ trợ</a>
+                <ul class="dropdown-menu" aria-labelledby="navNam">
+                  <li><a class="dropdown-item" href="#">Câu hỏi thường gặp</a></li>
+                  <li><a class="dropdown-item" href="#">Điểm cung cấp dịch vụ</a></li>
+                  
+                </ul>
+              </li>
+
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navNu" role="button" data-bs-toggle="dropdown" aria-expanded="false">Giới thiệu</a>
+                <ul class="dropdown-menu" aria-labelledby="navNu">
+                  <li><a class="dropdown-item" href="#">Tin tức</a></li>
+                  
+                </ul>
+              </li>
+
+             
+          
+            </ul>
+
+            <!-- Desktop search -->
+            
+
+            <!-- Desktop cart (icon + badge) -->
+            <div class="d-none d-lg-flex align-items-center">
+              <button data-v-3bbebefe="" class="btn btn-primary btn-lg me-3" style="
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                border: none;
+                border-radius: 25px;
+                padding: 12px 30px;
+                font-weight: 600;
+                font-size: 16px;
+                box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+                transition: all 0.3s ease;
+                position: relative;
+                overflow: hidden;
+              " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(102, 126, 234, 0.6)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(102, 126, 234, 0.4)'">
+                <i class="bi bi-lightning-charge me-2"></i>
+                Nạp tiền nhanh
+              </button>
+              
+              <a href="/cart" class="btn cart-btn position-relative" role="button" title="Giỏ hàng" style="
+                background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+                border: 2px solid #dee2e6;
+                border-radius: 50%;
+                width: 50px;
+                height: 50px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.3s ease;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+              " onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 4px 20px rgba(0,0,0,0.15)'; this.style.borderColor='#667eea'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 2px 10px rgba(0,0,0,0.1)'; this.style.borderColor='#dee2e6'">
+                <i class="bi bi-cart" style="font-size:1.2rem; color: #2c3e50;"></i>
+                <span class="badge bg-danger cart-badge" style="
+                  position: absolute;
+                  top: -8px;
+                  right: -8px;
+                  font-size: 0.7rem;
+                  padding: 4px 6px;
+                  border-radius: 50%;
+                  animation: pulse 2s infinite;
+                ">0</span>
+              </a>
+            </div>
+          </div>
+        </nav>
+        </div>
+      </div>
+    </header></div>
+    
+
+   
+
+    <!-- Sidebar Menu (Left) -->
+    <div class="offcanvas offcanvas-start sidebar-menu" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="sidebarMenuLabel">
+          <i class="bi bi-grid-3x3-gap me-2"></i>
+          Menu Chính
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body p-0">
+        <nav class="nav flex-column">
+          <!-- Chọn số -->
+          <a class="nav-link" href="/choose-number">
+            <i class="bi bi-phone"></i>
+            Chọn số
+          </a>
+
+          <!-- Gói cước -->
+          <a class="nav-link" href="/packages">
+            <i class="bi bi-credit-card"></i>
+            Gói cước
+          </a>
+
+          <!-- Nạp tiền -->
+          <a class="nav-link" href="/top-up">
+            <i class="bi bi-lightning-charge"></i>
+            Nạp tiền
+          </a>
+
+          <!-- Tiện ích Dropdown -->
+          <div class="dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-tools"></i>
+              Tiện ích
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="/esim"><i class="bi bi-sim"></i>eSIM</a></li>
+              <li><a class="dropdown-item" href="/order-tracking"><i class="bi bi-search"></i>Tra cứu đơn hàng</a></li>
+            </ul>
+          </div>
+
+          <!-- Hỗ trợ Dropdown -->
+          <div class="dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-headset"></i>
+              Hỗ trợ
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="/faq"><i class="bi bi-question-circle"></i>Câu hỏi thường gặp</a></li>
+              <li><a class="dropdown-item" href="/service-points"><i class="bi bi-geo-alt"></i>Điểm cung cấp dịch vụ</a></li>
+            </ul>
+          </div>
+
+          <!-- Giới thiệu Dropdown -->
+          <div class="dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-info-circle"></i>
+              Giới thiệu
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="/news"><i class="bi bi-newspaper"></i>Tin tức</a></li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Offcanvas for Cart (mobile) -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="cartOffcanvas" aria-labelledby="cartOffcanvasLabel">
+      <div class="offcanvas-header">
+        <h5 id="cartOffcanvasLabel">Giỏ hàng</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <!-- Ví dụ: danh sách item, cập nhật từ JS -->
+        <p class="text-muted">Giỏ hàng hiện tại trống.</p>
+        <!-- Nếu có item, render danh sách ở đây -->
+        <div class="d-grid gap-2 mt-3">
+          <a href="/cart" class="btn btn-primary">Xem giỏ hàng</a>
+          <a href="/checkout" class="btn btn-outline-secondary">Thanh toán</a>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Main -->
+    <main class="container-fluid flex-fill" style="background-color: #df9d9d; height: 60vh;">
+      <div class="container" >
+        Main content
+      </div>
+      
+    </main>
+
+    <!-- Footer -->
+     <div class="mt-auto container-fluid" >
+       <footer class="container border-top" style="padding-top: 100px;">
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="row">
+             <div class="col-sm-12">
+        <a style="float:left; bottom:100px" href=""><img src="../public/logo.2d2d0d2c.svg" alt="" style="width: 500px; height: 220px;"></a>
+          </div>
+          </div>
+         <div class="row">
+          <div class="col-sm-6 height-rf">
+            <p class="text-pf">
+              <b >
+                  Giới thiệu
+                </b>
+            </p>
+            <p class="text-pf">>tin tức</p>
+            <p class="text-pf">Tải xuống logo VNSKY</p>
+            <p class="text-pf">(<span style="color: #007bff; font-weight: bold;">1900 5222</span>) 1.000đ/Phút</p>
+
+          </div>
+          <div class="col-sm-6 height-rf">
+
+            <p class="text-pf"><b>Trung tâm hỗ trợ</b></p>
+            <p class="text-pf">Câu hỏi thường gặp</p>
+            <p class="text-pf">Chính sách bảo mật</p>
+            <p class="text-pf">Quản lý chất lượng</p>
+            
+          </div>
+         </div>
+          
+          
+          </div>
+       
+        <div class="col-sm-6">
+          <div class="row">
+            <div class="col-sm-6 height-rf">
+              <p class="text-pf"><b>Kết nối với VNSKY</b></p>
+            </div>
+            <div class="col-sm-6">
+              <p class="text-pf"><b>Tải ứng dụng</b></p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6 height-rf">
+              <p class="text-pf"><b>Tiện ích</b></p>
+              <p class="text-pf">>eSim</p>
+              <p class="text-pf">Mua SIM</p>
+              <p class="text-pf">Nạp tiền</p>
+              <p class="text-pf">Tra cứu đơn hàng</p>
+            </div>
+            <div class="col-sm-6 height-rf">
+              <p class="text-pf"><b>Phương thức thanh toán
+
+              </b></p>
+             
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+     </div>
+   
+
+  </div>
+
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Demo: cách update badge (số lượng giỏ hàng) bằng JS
+    // document.querySelectorAll('.cart-badge').forEach(b => b.textContent = '3');
+  </script>
+
+  <!-- Modal Login -->
+
+<!-- Modal Login -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      
+      <!-- Header -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="loginModalLabel">Đăng nhập tài khoản</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+      </div>
+      
+      <!-- Body -->
+      <div class="modal-body">
+        <p>Nhập email và mật khẩu của bạn:</p>
+        <form>
+          <div class="mb-3">
+            <label for="loginEmail" class="form-label">Email</label>
+            <input type="email" class="form-control" id="loginEmail" placeholder="you@example.com">
+          </div>
+          <div class="mb-3">
+            <label for="loginPassword" class="form-label">Mật khẩu</label>
+            <input type="password" class="form-control" id="loginPassword" placeholder="••••••••">
+          </div>
+          <p class="small text-muted">
+            This site is protected by reCAPTCHA and the Google Privacy Policy and Terms of Service apply.
+          </p>
+        </form>
+      </div>
+      
+      <!-- Footer -->
+      <div class="modal-footer d-flex flex-column align-items-start">
+        <button type="button" class="btn btn-primary w-100 mb-2">Đăng nhập</button>
+        <p class="mb-1">Khách hàng mới? <a href="#">Tạo tài khoản</a></p>
+        <p class="mb-0"><a href="#">Quên mật khẩu?</a> <span class="text-muted">Khôi phục mật khẩu</span></p>
+      </div>
+      
+    </div>
+  </div>
+</div>
+</body>
+</html>
