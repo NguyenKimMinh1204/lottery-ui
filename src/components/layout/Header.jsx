@@ -1,9 +1,10 @@
 'use client';
 import React from 'react';
+import Menu from './menu';
 
 export default function Header({ setIsSidebarOpen, setIsCartOpen, cartCount = 0 }) {
   return (
-    <header className="bg-gradient-to-br from-white to-gray-50 shadow-lg border-b border-gray-200">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-br from-white to-gray-50 shadow-lg border-b border-gray-200">
     <div className="container mx-auto px-4">
       <nav className="flex items-center justify-between py-4">
         {/* Logo */}
@@ -15,19 +16,19 @@ export default function Header({ setIsSidebarOpen, setIsCartOpen, cartCount = 0 
           />
         </a>
 
-        {/* Sidebar Toggle */}
-        <button
-          onClick={() => setIsSidebarOpen(true)}
-          className="lg:hidden mr-3 p-2 rounded-lg bg-gradient-to-br from-purple-100 to-indigo-100 hover:from-purple-600 hover:to-indigo-600 hover:text-white transition-all duration-300 hover:scale-105 hover:shadow-lg"
-          aria-label="Mở menu"
-        >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        </button>
+        {/* Sidebar Toggle removed - using Menu component inside mobile actions */}
 
         {/* Mobile Icons */}
         <div className="flex lg:hidden items-center ml-auto gap-2">
+          {/* Quick top-up visible from 540px up; sits to the left of cart */}
+          <button className="hidden [@media(min-width:540px)]:inline-flex bg-gradient-to-l from-[#cd0394] via-[#6127bf] to-[#3e1074] text-white rounded-sm px-4 py-2 font-semibold shadow-md hover:shadow-lg transition-all duration-300 items-center gap-2">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+            Nạp tiền nhanh
+          </button>
+          {/* Divider between quick top-up and cart (only when quick top-up is visible) */}
+          <div className="hidden [@media(min-width:540px)]:block h-[20px] border-r border-gray-300 mx-2" />
           <button
             onClick={() => setIsCartOpen(true)}
             className="relative p-2 text-gray-700 hover:text-purple-600 transition-all"
@@ -42,6 +43,8 @@ export default function Header({ setIsSidebarOpen, setIsCartOpen, cartCount = 0 
               </span>
             )}
           </button>
+          {/* Mobile hamburger/menu trigger sits to the right of cart */}
+          <Menu />
         </div>
 
         {/* Desktop Menu */}
@@ -91,7 +94,7 @@ export default function Header({ setIsSidebarOpen, setIsCartOpen, cartCount = 0 
 
         {/* Desktop Actions */}
         <div className="hidden lg:flex items-center gap-3">
-          <button className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-8 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-2">
+          <button className="bg-gradient-to-l from-[#cd0394] via-[#6127bf] to-[#3e1074] text-white rounded-sm px-8 py-3 font-semibold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
@@ -99,7 +102,7 @@ export default function Header({ setIsSidebarOpen, setIsCartOpen, cartCount = 0 
           </button>
           
           <button
-            onClick={() => setIsCartOpen(true)}
+            onClick={() => setIsCartOpen && setIsCartOpen(true)}
             className="relative w-12 h-12 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 border-2 border-gray-300 hover:border-purple-600 hover:scale-110 transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center"
             aria-label="Giỏ hàng"
           >
