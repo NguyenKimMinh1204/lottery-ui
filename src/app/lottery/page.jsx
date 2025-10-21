@@ -27,7 +27,7 @@ export default function LotteryPage() {
   const [activeNumber, setActiveNumber] = useState(null)
 
   // Tập số hiển thị (định dạng 6 chữ số). Giới hạn tối đa 10 số
-  const numbers = useMemo(() => Array.from({ length: 10 }, (_, i) => String(i).padStart(6, '0')), [])
+  const numbers = useMemo(() => Array.from({ length: 1000 }, (_, i) => String(i).padStart(6, '0')), [])
   const filtered = useMemo(() => numbers.filter(n => n.includes(query.trim())), [numbers, query])
 
   // Thông tin vé theo từng số. Sửa tại đây nếu thay đổi quy định.
@@ -102,6 +102,7 @@ export default function LotteryPage() {
       </div>
 
       {/* Lưới số, kèm phù hiệu số lượng đã chọn và vé còn lại */}
+      {/* Lưới số với lazy-loading. Điều chỉnh pageSize để tăng/giảm số lượng tải mỗi lần */}
       <ChooseNumber
         filtered={filtered}
         selectedCountByNumber={selectedCountByNumber}
@@ -111,6 +112,8 @@ export default function LotteryPage() {
           return Math.max(0, meta.total - meta.sold)
         }}
         onOpen={openModal}
+        maxRows={5}
+        pageSize={150}
       />
 
       {/* Thanh hành động: hiển thị tạm tính và các nút chính */}

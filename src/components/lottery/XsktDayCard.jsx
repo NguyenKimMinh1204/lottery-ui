@@ -8,7 +8,7 @@ import React from 'react'
 // - companies: danh sách công ty (id, name, logo, endTime)
 // - isActive: trạng thái nổi bật (hover/chọn)
 // - onClick/onMouseEnter/onMouseLeave: sự kiện tương tác
-export default function XsktDayCard({ dayText, dateText, companies, isActive, onClick, onMouseEnter, onMouseLeave }) {
+export default function XsktDayCard({ dayText, dateText, companies, isActive, onClick, onMouseEnter, onMouseLeave, onCompanyClick, shouldShowSoldOut }) {
   return (
     <div className="border border-gray-200 rounded-2xl shadow-sm p-6 mb-6 bg-gray-50 rounded-xl ">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 items-start">
@@ -37,22 +37,36 @@ export default function XsktDayCard({ dayText, dateText, companies, isActive, on
             return (
               <div className={isScrollable ? 'overflow-x-auto -mx-2 px-2' : ''}>
                 <div className={isScrollable ? 'flex gap-4' : 'grid grid-cols-2 sm:grid-cols-3 gap-5'}>
-                  {companies.map((c) => (
-                    <div
-                      key={c.id}
-                      className={`${isScrollable ? 'shrink-0 w-48' : ''} group rounded-xl border border-indigo-100 p-4 text-center transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 bg-white/60`}
-                    >
-                      <div className="mx-auto h-12 w-12 rounded-full overflow-hidden ring-2 ring-indigo-200/60">
-                        <img src={c.logo} alt={c.name} className="h-full w-full object-cover" />
+                  {companies.map((c, idx, arr) => {
+                    const soldOut = idx >= Math.max(0, arr.length - 2) // tạm thời: 1-2 cái cuối để sau này lấy
+                    const showHint = typeof shouldShowSoldOut === 'function' ? !!shouldShowSoldOut(idx) : false
+                    return (
+                      <div
+                        key={c.id}
+                        className={`${isScrollable ? 'shrink-0 w-48' : ''} relative group rounded-xl border border-indigo-100 p-4 text-center transition-all duration-200 ${soldOut ? 'opacity-60' : 'hover:shadow-md hover:-translate-y-0.5'} bg-white/60 cursor-pointer`}
+                        onClick={() => {
+                          if (typeof onCompanyClick === 'function') onCompanyClick(idx, soldOut)
+                        }}
+                      >
+                        <div className="mx-auto h-12 w-12 rounded-full overflow-hidden ring-2 ring-indigo-200/60">
+                          <img src={c.logo} alt={c.name} className={`h-full w-full object-cover ${soldOut ? 'blur-[1.5px]' : ''}`} />
+                        </div>
+                        <div className="mt-2 font-semibold text-gray-800">{c.name}</div>
+                        <div className="mt-1">
+                          <span className="inline-flex items-center gap-1 text-xs font-medium text-amber-700 bg-amber-50 rounded-full px-2 py-0.5">
+                            Kết thúc: {c.endTime}
+                          </span>
+                        </div>
+                        {soldOut && showHint && (
+                          <div className="absolute inset-0 rounded-xl bg-white/70 backdrop-blur-[1px] flex items-center justify-center p-3">
+                            <span className="text-[11px] font-semibold text-rose-700 text-center">
+                              Đài bạn chọn đã hết vé, vui lòng chọn đài khác
+                            </span>
+                          </div>
+                        )}
                       </div>
-                      <div className="mt-2 font-semibold text-gray-800">{c.name}</div>
-                      <div className="mt-1">
-                        <span className="inline-flex items-center gap-1 text-xs font-medium text-amber-700 bg-amber-50 rounded-full px-2 py-0.5">
-                          Kết thúc: {c.endTime}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
+                    )
+                  })}
                 </div>
               </div>
             )

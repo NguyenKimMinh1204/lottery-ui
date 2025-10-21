@@ -29,14 +29,15 @@ const defaultCompanies = [
 export default function XsktWeek({ companies = defaultCompanies }) {
   const [activeIdx, setActiveIdx] = useState(null)
   const [hoverIdx, setHoverIdx] = useState(null)
+  const [showSoldOutHintFor, setShowSoldOutHintFor] = useState(null)
 
   return (
     <div className="container mx-auto px-4 py-6">
       {[...Array(7)].map((_, idx) => {
-        const d = new Date()
-        // Thứ hai là ngày đầu tuần; ánh xạ idx (0..6) -> Thứ hai..Chủ nhật
-        const mondayOffset = ((d.getDay() + 6) % 7) // 0 for Monday
-        d.setDate(d.getDate() - mondayOffset + idx)
+        // Bắt đầu từ hôm nay, rồi tiến tới 6 ngày tiếp theo (vd: T3 -> T4 -> ... -> T2)
+        const base = new Date()
+        const d = new Date(base)
+        d.setDate(base.getDate() + idx)
         const dayText = formatVietnameseDay(d)
         const dateText = formatDateString(d)
 
@@ -51,6 +52,14 @@ export default function XsktWeek({ companies = defaultCompanies }) {
             onClick={() => setActiveIdx(idx)}
             onMouseEnter={() => setHoverIdx(idx)}
             onMouseLeave={() => setHoverIdx(null)}
+            onCompanyClick={(companyIdx, soldOut) => {
+              if (soldOut) {
+                setShowSoldOutHintFor(`${idx}-${companyIdx}`)
+              } else {
+                setShowSoldOutHintFor(null)
+              }
+            }}
+            shouldShowSoldOut={(companyIdx) => showSoldOutHintFor === `${idx}-${companyIdx}`}
           />
         )
       })}
