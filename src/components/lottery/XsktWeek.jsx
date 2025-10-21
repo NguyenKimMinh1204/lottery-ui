@@ -22,7 +22,8 @@ const defaultCompanies = [
   { id: 'ct03', name: 'Cà Mau', logo: '/img_nhadai/camau.jpg', endTime: '16:15' },
   { id: 'ct04', name: 'Bến Tre', logo: '/img_nhadai/mienba.jpg', endTime: '16:15' },
   { id: 'ct05', name: 'Vũng Tàu', logo: '/img_nhadai/mienba.jpg', endTime: '16:15' },
-  { id: 'ct06', name: 'Bạc Liêu', logo: '/img_nhadai/mienba.jpg', endTime: '16:15' }
+  { id: 'ct06', name: 'Bạc Liêu', logo: '/img_nhadai/mienba.jpg', endTime: '16:15' },  
+  { id: 'ct01', name: 'TP.HCM', logo: '/img_nhadai/hochiminh.jpg', endTime: '16:15' }
 ]
 
 export default function XsktWeek({ companies = defaultCompanies }) {
