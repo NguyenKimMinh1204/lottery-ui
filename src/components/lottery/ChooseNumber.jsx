@@ -8,7 +8,10 @@ export default function ChooseNumber({ filtered, selectedCountByNumber, getRemai
   return (
     <div className="rounded-2xl border border-gray-200 bg-white/70">
       <div className="max-h-80 overflow-y-auto p-4">
-        <div className="grid grid-cols-2 sm:grid-cols-5 md:grid-cols-8 lg:grid-cols-10 gap-3">
+        <div
+          className="grid gap-3"
+          style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))' }}
+        >
           {filtered.map(n => {
             const count = selectedCountByNumber.get(n) || 0
             const isActive = count > 0
@@ -22,6 +25,7 @@ export default function ChooseNumber({ filtered, selectedCountByNumber, getRemai
                     ? 'bg-indigo-600 text-white border-indigo-600 pl-10 pr-9'
                     : 'bg-white text-gray-800 border-gray-200 hover:bg-indigo-50 pr-9'
                 }`}
+                style={{ minWidth: '140px', maxWidth: '200px' }}
               >
                 {/* Badge bên trái khi đã chọn: số lượng vé đã chọn */}
                 {isActive && (
