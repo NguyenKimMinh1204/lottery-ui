@@ -1,6 +1,11 @@
 'use client'
 import React from 'react'
 
+// Thanh tóm tắt và hành động ở cuối trang chọn số
+// Props:
+// - subtotal: tổng tiền tạm tính
+// - onReset: callback xoá toàn bộ lựa chọn
+// - onSubmit: callback đặt vé
 export default function SummaryBar({ subtotal, onReset, onSubmit }) {
   return (
     <div className="mt-5 flex flex-col md:flex-row md:items-center md:justify-between gap-3">

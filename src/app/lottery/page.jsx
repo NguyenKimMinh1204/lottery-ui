@@ -26,8 +26,8 @@ export default function LotteryPage() {
   // Số đang thao tác trong modal
   const [activeNumber, setActiveNumber] = useState(null)
 
-  // Tập số hiển thị (định dạng 6 chữ số). Bị lọc theo `query` bên dưới
-  const numbers = useMemo(() => Array.from({ length: 1000 }, (_, i) => String(i).padStart(6, '0')), [])
+  // Tập số hiển thị (định dạng 6 chữ số). Giới hạn tối đa 10 số
+  const numbers = useMemo(() => Array.from({ length: 10 }, (_, i) => String(i).padStart(6, '0')), [])
   const filtered = useMemo(() => numbers.filter(n => n.includes(query.trim())), [numbers, query])
 
   // Thông tin vé theo từng số. Sửa tại đây nếu thay đổi quy định.
@@ -38,8 +38,9 @@ export default function LotteryPage() {
     for (let i = 0; i < n.length; i++) {
       hash = (hash * 31 + n.charCodeAt(i)) >>> 0
     }
-    const total = 20
-    const sold = hash % (total + 1)
+    // Cấu hình: tối đa 10 vé mỗi số, còn lại 9 vé (sold = 1)
+    const total = 10
+    const sold = 1
     return { total, sold }
   }
 
@@ -100,8 +101,17 @@ export default function LotteryPage() {
         </div>
       </div>
 
-      {/* Lưới số, kèm phù hiệu số lượng đã chọn cho từng số */}
-      <ChooseNumber filtered={filtered} selectedCountByNumber={selectedCountByNumber} onOpen={openModal} />
+      {/* Lưới số, kèm phù hiệu số lượng đã chọn và vé còn lại */}
+      <ChooseNumber
+        filtered={filtered}
+        selectedCountByNumber={selectedCountByNumber}
+        getRemaining={(num) => {
+          const meta = metadata.get(num)
+          if (!meta) return 0
+          return Math.max(0, meta.total - meta.sold)
+        }}
+        onOpen={openModal}
+      />
 
       {/* Thanh hành động: hiển thị tạm tính và các nút chính */}
       <SummaryBar subtotal={subtotal} onReset={() => setSelected([])} onSubmit={() => {}} />

@@ -1,6 +1,7 @@
 'use client'
 import React from 'react'
 
+// Thẻ hướng dẫn nhanh cách chơi cho người dùng mới
 export default function InstructionCard() {
   return (
     <div className="mt-6 rounded-2xl border border-gray-200 bg-white/70 p-5">

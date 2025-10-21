@@ -38,7 +38,7 @@ export default function MainLayout({ children }) {
       />
 
       {/* Main Content (children act as main) */}
-      <div className="flex-1">
+      <div className="flex-1 pt-[88px] bg-[url('/backgr_main.jpg')] bg-cover bg-center bg-no-repeat">
         {children}
       </div>
 

@@ -1,6 +1,14 @@
 'use client'
 import React from 'react'
 
+// Modal chọn số lượng vé cho một số nhất định
+// Props:
+// - open: bật/tắt modal
+// - number: số đang thao tác
+// - meta: { total, sold } dữ liệu vé của số
+// - currentQty: số lượng đang chọn hiện tại (để highlight)
+// - onClose: đóng modal
+// - onSelectQty: chọn số lượng (1..còn lại)
 export default function LotteryModal({ open, number, meta, currentQty, onClose, onSelectQty }) {
   if (!open || !number) return null
 

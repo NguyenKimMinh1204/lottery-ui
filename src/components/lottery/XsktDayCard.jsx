@@ -1,6 +1,13 @@
 'use client'
 import React from 'react'
 
+// Thẻ hiển thị 1 ngày XSKT với danh sách công ty mở thưởng
+// Props:
+// - dayText: tên ngày (Thứ hai, Thứ ba, ...)
+// - dateText: ngày dd/mm/yyyy
+// - companies: danh sách công ty (id, name, logo, endTime)
+// - isActive: trạng thái nổi bật (hover/chọn)
+// - onClick/onMouseEnter/onMouseLeave: sự kiện tương tác
 export default function XsktDayCard({ dayText, dateText, companies, isActive, onClick, onMouseEnter, onMouseLeave }) {
   return (
     <div className="border border-gray-200 rounded-2xl shadow-sm p-6 mb-6 bg-gray-50 rounded-xl ">

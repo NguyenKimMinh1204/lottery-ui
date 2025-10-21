@@ -1,9 +1,7 @@
 export default function MainContent() {
   return (
-    <main className="bg-pink-300 min-h-[60vh] flex items-center justify-center">
-      <div className="container text-center text-lg font-semibold">
-        about
-      </div>
-    </main>
+    <div className="container mx-auto px-4 py-12 h-screen">
+      about
+    </div>
   );
 }
